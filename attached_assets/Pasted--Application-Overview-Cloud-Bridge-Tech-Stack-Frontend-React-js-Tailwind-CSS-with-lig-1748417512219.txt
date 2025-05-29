@@ -1,0 +1,74 @@
+### Application Overview: "Cloud Bridge" ###
+
+Tech Stack
+Frontend: React.js + Tailwind CSS (with light/dark theme support)
+Backend: Node.js + Express.js
+Database: MySQL (Install in same server)
+Authentication: JWT-based
+SSH Connectivity: node-ssh or ssh2 package
+AWS Integration: AWS SDK for JavaScript (v3)
+State Management: Redux or Context API (if needed)
+
+### Application Features ###
+
+1. Login Page
+    Connects to database for user authentication
+    Only includes Username and Password (empty by default)
+    No Register option; only Admins can create users
+    Default admin user:
+    Username: admin
+    Password: changeme
+
+2. Home Page Layout
+    Create a Welcome page that displays the message "Welcome to the Web based SSH" centered on the page for users with the Developer role, and "Welcome to the Web based SSH and Regular Activities" centered for users with the Administrator role.
+
+    Top Bar
+    Place the Cloud Bridge logo at the top left corner.
+    Add a left sidebar with tab buttons named SSH, Regular Activities, Settings (positioned at the bottom of the sidebar), and Logout (also at the bottom).
+    Clicking Logout should redirect to the login page and display the message: "Successfully logged out."
+    
+3. On the settings tab add 3 tabs Users, Profiles, AWS Accounts, Theme.
+    Users Tab:
+    In the Users tab, add three buttons: Add, Edit, and Delete.
+    The "Add" button should open a form to create a new user, including fields for full name, username (alphbets/numbers can be fine), email, access level (with a dropdown containing two roles: Developer and Administrator), password, and confirm password. At the bottom of the form, include two buttons labeled Cancel and Create.
+    The "Edit" button should allow editing the selected user's details or resetting their password. This form should also include two buttons at the bottom labeled Cancel and Update.
+    The "Delete" button should remove the selected user(s) from the list.
+    Display a list of users showing a checkbox for selection, along with the user's full name, username, access level, and email.
+    Once a user is created, a folder should be created under the path /opt/ using the username as the folder name. All files from the /opt/admin/ directory should be copied into the newly created user folder.
+
+    Profiles tab:
+    In the Profiles tab, add four buttons: Add, Edit, Delete, and Assign.
+    The "Add" button should allow the creation of new profiles based on AWS tags.
+    The "Edit" button should enable editing of the selected profile.
+    The "Delete" button should remove the selected profile.
+    The "Assign" button should assign the selected profile to an existing user.
+    Display a list of profiles showing a checkbox for selection, along with the AWS tags associated with each profile.
+
+    AWS Accounts tab:
+    In the AWS Accounts tab, include two sub-tabs: AWS Credentials and EC2 Keys.
+    In the AWS Credentials sub-tab, add two buttons: Add and Delete.
+    The Add button should allow the addition of an AWS access key, secret key, account ID, and account name.
+    The Delete button should remove the selected AWS credential entry.
+    Display a list of account names and AWS account IDs with a checkbox for selection, along with the associated access keys that were added.
+
+    EC2 Keys sub tab:
+    In the EC2 Keys sub-tab, add two buttons: Add and Delete.
+    The Add button should allow the user to add a private key by selecting an access key (populated from the AWS Credentials), selecting an EC2 region (excluding GovCloud), selecting a key name (based on the selected access key), and uploading the corresponding .pem file.
+    The Delete button should delete the selected EC2 key.
+    Display a list of key names and EC2 regions with checkboxes for selection, along with the associated access keys.
+
+    Theme tab:
+    In the Theme tab, include a dropdown list to select a theme, with options for Light, Dark, and Grey. When a theme is selected, a preview should be shown immediately. Include a Save button to apply and save the selected theme.
+
+4.  SSH Tab:
+    In the SSH tab, add a search bar and a dropdown at the top of the page to select the account name added in the AWS Credentials settings.
+    List the servers based on the selected AWS Credentials, displaying the server name (based on tags) with a checkbox for selection, along with the instance IP, user, host (private IP of the server), and region.
+    Also, include a Connect button that connects to the selected servers using the correct PEM key for each instance and account. The connection should open the selected EC2 instances in a single adjustable terminal tab (connecting to multiple servers opens them all in one tab, not multiple tabs).
+
+5. Regular Activities tab
+    In the Regular Activities tab, add three buttons: Add, Edit, and Delete.
+    When the Add button is clicked, it should open a popup containing the following fields: Name of the Activity, Description, Path (which can be entered manually or by pasting the script path), File Name, and an option to upload scripts. At the bottom of the popup, include two buttons: Cancel and Save.
+    Each activity should have a Connect button. 
+    When clicked, it should open a popup containing a dropdown that lists all scripts located in /home/<user account name>. After selecting a script, the user should be able to save it. Below the dropdown, include an adjustable input box for entering parameters or input values. Once the input is provided and saved, the user should be able to click a Run button to execute the task.
+    If the default user updates any script, it should automatically be copied to all other user accounts located in the /home/<user account name> directory.
+    After the task is completed, a message should be displayed indicating success or failure, along with the execution logs.
